@@ -1,0 +1,18 @@
+name: Test 2
+
+on:
+  push:
+    branches:
+      - hh_mono-repo
+
+jobs:
+  run-test-1:
+    name: Run test 2
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Echo test
+        run: echo test
+      - name: Echo test number
+        run: echo 2
+
+
