@@ -189,8 +189,13 @@ export default class WebSocketClient {
                         console.log('long timeout, or server restart, or sequence number is not found.'); //eslint-disable-line no-console
 
                         this.missedEventCallback?.();
-                        this.missedMessageListeners.forEach((listener) => listener());
-
+                        for (const listener of this.missedMessageListeners) {
+                            try {
+                                listener();
+                            } catch (e) {
+                                console.log(`missed message listener "${listener.name}" failed: ${e}`); // eslint-disable-line no-console
+                            }
+                        }
                         this.serverSequence = 0;
                     }
 
