@@ -4,7 +4,7 @@
 declare const REMOTE_CONTAINERS: Record<string, string>;
 
 declare module 'boards' {
-    import type {ProductPlugin} from 'plugins/products';
+    import type {ProductPlugin, ProductPlugin} from 'plugins/products';
 
     export default class Plugin extends ProductPlugin {
         initialize(registry: PluginRegistry, store: Store): void;
@@ -13,13 +13,12 @@ declare module 'boards' {
 }
 
 declare module 'boards/manifest' {
-    import type {PluginManifest} from '@mattermost/types/plugins';
+    import type {PluginManifest, PluginManifest} from '@mattermost/types/plugins';
     const module: PluginManifest;
     export default module;
 }
 
 declare module 'playbooks' {
-    import type {ProductPlugin} from 'plugins/products';
 
     export default class Plugin extends ProductPlugin {
         initialize(registry: PluginRegistry, store: Store): void;
@@ -28,7 +27,7 @@ declare module 'playbooks' {
 }
 
 declare module 'playbooks/manifest' {
-    import type {PluginManifest} from '@mattermost/types/plugins';
+
     const module: PluginManifest;
     export default module;
 }
