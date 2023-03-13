@@ -93,4 +93,41 @@ describe('Collapsed Reply Threads', () => {
             cy.uiCloseRHS();
         });
     });
+
+    it('should focus on editor when no new messages', () => {
+        // # Post a root post as current user
+        cy.postMessageAs({
+            sender: testUser,
+            message: 'Another interesting post,',
+            channelId: testChannel.id,
+        }).then(({id: rootId}) => {
+            // # Post multiple replies as other user so that the new messages line is pushed up
+            Cypress._.times(20, (i) => {
+                cy.postMessageAs({
+                    sender: otherUser,
+                    message: 'Reply ' + i,
+                    channelId: testChannel.id,
+                    rootId,
+                });
+            });
+
+            // # Click root post
+            cy.get(`#post_${rootId}`).click();
+
+            // # Wait for RHS to open and scroll to position
+            cy.wait(TIMEOUTS.ONE_SEC);
+
+            // * RHS should open and the editor should not be visible, as the new messages line is visible
+            cy.get('#rhsContainer').findByTestId('reply_textbox').should('not.be.visible');
+
+            // # Close RHS
+            cy.uiCloseRHS();
+
+            // # Click root post
+            cy.get(`#post_${rootId}`).click();
+
+            // * RHS should open and the editor should be visible and focused
+            cy.get('#rhsContainer').findByTestId('reply_textbox').should('be.visible').should('be.focused');
+        });
+    });
 });
